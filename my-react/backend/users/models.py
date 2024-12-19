@@ -1,23 +1,11 @@
-class CustomUser:
-    def __init__(self, username, email, full_name=None, password=None):
-        self.username = username
-        self.email = email
-        self.full_name = full_name
-        self.password = password
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
-    def to_dict(self):
-        return {
-            "username": self.username,
-            "email": self.email,
-            "full_name": self.full_name,
-            "password": self.password,
-        }
+class CustomUser(AbstractUser):
+    email = models.EmailField(unique=True)  
+    full_name = models.CharField(max_length=255, blank=True, null=True)  
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)  
+    bio = models.TextField(max_length=500, blank=True)  
 
-    @staticmethod
-    def from_dict(data):
-        return CustomUser(
-            username=data["username"],
-            email=data["email"],
-            full_name=data.get("full_name"),
-            password=data["password"],
-        )
+    def __str__(self):
+        return self.username
