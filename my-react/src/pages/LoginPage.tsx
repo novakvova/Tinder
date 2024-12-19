@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
+import axios from '../axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
+// Визначаємо тип для відповіді сервера
 interface LoginResponse {
   access: string;
   refresh: string;
@@ -14,7 +15,7 @@ const LoginPage: React.FC = () => {
   });
 
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,20 +24,22 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post<LoginResponse>('http://127.0.0.1:8000/login/', formData);
-      const { access, refresh } = response.data;
+      const response = await axios.post<LoginResponse>('/login/', formData); // Додаємо тип відповіді
+      const { access, refresh } = response.data; // Тепер TypeScript знає про поля
 
-     
+      // Зберігаємо токени у localStorage
       localStorage.setItem('access', access);
       localStorage.setItem('refresh', refresh);
 
       setMessage('Авторизація успішна!');
-      
-     
-      navigate('/profile');
+      navigate('/profile'); // Перенаправлення на профіль
     } catch (error) {
       setMessage("Помилка авторизації. Перевірте ім'я користувача та пароль.");
     }
+  };
+
+  const handleRegisterRedirect = () => {
+    navigate('/register'); // Перенаправлення на сторінку реєстрації
   };
 
   return (
@@ -76,10 +79,20 @@ const LoginPage: React.FC = () => {
           </button>
         </form>
         {message && (
-          <p className={`mt-4 text-center ${message === 'Авторизація успішна!' ? 'text-green-500' : 'text-red-500'}`}>
+          <p
+            className={`mt-4 text-center ${
+              message === 'Авторизація успішна!' ? 'text-green-500' : 'text-red-500'
+            }`}
+          >
             {message}
           </p>
         )}
+        <button
+          onClick={handleRegisterRedirect}
+          className="mt-4 w-full bg-gray-300 text-gray-800 py-2 rounded-md hover:bg-gray-400 transition"
+        >
+          Створити акаунт
+        </button>
       </div>
     </div>
   );
