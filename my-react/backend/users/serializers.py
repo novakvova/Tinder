@@ -28,8 +28,6 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('display_name', 'bio', 'avatar')
 
     def get_avatar(self, obj):
-        if obj.avatar and obj.avatar.name:  # Перевірка, чи є ім'я файла
-            azure_account_name = settings.AZURE_ACCOUNT_NAME
-            azure_container = settings.AZURE_CONTAINER
-            return f"https://{azure_account_name}.blob.core.windows.net/{azure_container}/{obj.avatar.name}"
+        if obj.avatar and obj.avatar.name:
+            return f"https://{settings.AZURE_ACCOUNT_NAME}.blob.core.windows.net/{settings.AZURE_CONTAINER}/{obj.avatar.name}"
         return None

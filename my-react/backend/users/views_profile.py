@@ -17,7 +17,9 @@ class ProfileView(APIView):
         if serializer.is_valid():
             if 'avatar' in request.FILES:
                 user.avatar = request.FILES['avatar']
-                user.save()
+                print(f"Збереження аватара: {user.avatar.name}")  # Додайте логування
+            user.save()
             serializer.save()
             return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
+
