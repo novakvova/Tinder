@@ -3,15 +3,15 @@ from dotenv import load_dotenv
 import os
 from datetime import timedelta
 
-# Завантаження .env
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Secret key
+
 SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
 
-# Debug
+
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
