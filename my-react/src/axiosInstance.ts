@@ -31,7 +31,6 @@ axiosInstance.interceptors.response.use(
         try {
           const refreshToken = localStorage.getItem("refresh");
   
-          // Явно вказуємо тип для відповіді
           interface RefreshResponse {
             access: string;
           }
@@ -41,23 +40,22 @@ axiosInstance.interceptors.response.use(
             { refresh: refreshToken }
           );
   
-          const { access } = response.data; // TypeScript тепер розуміє, що в data є 'access'
+          const { access } = response.data; 
           localStorage.setItem("access", access);
           originalRequest.headers.Authorization = `Bearer ${access}`;
-          return axios(originalRequest); // Повторний запит з новим токеном
+          return axios(originalRequest); 
         } catch (refreshError) {
           console.error("Не вдалося оновити токен:", refreshError);
           localStorage.removeItem("access");
           localStorage.removeItem("refresh");
-          window.location.href = "/login"; // Перенаправлення на авторизацію
+          window.location.href = "/login"; 
         }
       }
   
       if (error.response?.status === 401) {
-        // Якщо refresh токен також недійсний
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
-        window.location.href = "/login"; // Перенаправлення на авторизацію
+        window.location.href = "/login"; 
       }
   
       return Promise.reject(error);
