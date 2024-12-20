@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
-// Визначаємо тип для відповіді сервера
+
 interface LoginResponse {
   access: string;
   refresh: string;
@@ -24,22 +24,22 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post<LoginResponse>('/login/', formData); // Додаємо тип відповіді
-      const { access, refresh } = response.data; // Тепер TypeScript знає про поля
+      const response = await axios.post<LoginResponse>('/login/', formData); 
+      const { access, refresh } = response.data; 
 
-      // Зберігаємо токени у localStorage
+     
       localStorage.setItem('access', access);
       localStorage.setItem('refresh', refresh);
 
       setMessage('Авторизація успішна!');
-      navigate('/profile'); // Перенаправлення на профіль
+      navigate('/profile'); 
     } catch (error) {
       setMessage("Помилка авторизації. Перевірте ім'я користувача та пароль.");
     }
   };
 
   const handleRegisterRedirect = () => {
-    navigate('/register'); // Перенаправлення на сторінку реєстрації
+    navigate('/register'); 
   };
 
   return (

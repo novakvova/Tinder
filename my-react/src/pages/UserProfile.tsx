@@ -23,7 +23,7 @@ const UserProfile: React.FC = () => {
         const response = await axios.get("/profile/");
         const userData = response.data as UserProfileData;
 
-        // Використовуємо import.meta.env замість process.env
+        
         const baseUrl = import.meta.env.VITE_APP_BASE_URL;
 
         if (userData.avatar && !userData.avatar.startsWith('http')) {
