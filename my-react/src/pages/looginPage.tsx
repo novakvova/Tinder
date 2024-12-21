@@ -43,10 +43,13 @@ const LoginPage: React.FC = () => {
   };
 
   return (
+    <>
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 to-blue-600">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Авторизація</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+         onSubmit={handleSubmit} 
+        className="space-y-4">
           <div>
             <label className="block text-gray-700 font-medium">Ім'я користувача:</label>
             <input
@@ -57,7 +60,7 @@ const LoginPage: React.FC = () => {
               onChange={handleChange}
               required
               className="w-full mt-1 px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
+              />
           </div>
           <div>
             <label className="block text-gray-700 font-medium">Пароль:</label>
@@ -74,27 +77,28 @@ const LoginPage: React.FC = () => {
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
-          >
+            >
             Увійти
           </button>
         </form>
         {message && (
           <p
-            className={`mt-4 text-center ${
-              message === 'Авторизація успішна!' ? 'text-green-500' : 'text-red-500'
+          className={`mt-4 text-center ${
+            message === 'Авторизація успішна!' ? 'text-green-500' : 'text-red-500'
             }`}
-          >
+            >
             {message}
-          </p>
-        )}
+            </p>
+            )}
         <button
           onClick={handleRegisterRedirect}
           className="mt-4 w-full bg-gray-300 text-gray-800 py-2 rounded-md hover:bg-gray-400 transition"
-        >
+          >
           Створити акаунт
         </button>
       </div>
     </div>
+          </>
   );
 };
 
