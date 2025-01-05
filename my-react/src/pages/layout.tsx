@@ -12,6 +12,8 @@ import { Carousel } from 'flowbite';
 
 
 // const { Header, , Content } = Layout;
+// const { Header, , Content } = Layout;
+
 const Layout: React.FC = () => {
     // const { pathname } = useLocation();
     const carouselElement = document.getElementById('carousel-example');
