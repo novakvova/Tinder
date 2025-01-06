@@ -1,151 +1,54 @@
-// import { Carousel } from 'flowbite';
-// import { Carousel } from "flowbite-react";
 
-
-// import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { Carousel } from 'flowbite';
+// import 'flowbite';  // Import Flowbite JS
+// import 'flowbite/dist/flowbite.min.css';  // Import Flowbite CSS
+import {Carousel} from 'flowbite-react';
+
 
 // export function Component() {
 //     return (
-//       <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-//         <Carousel>
-//           <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
-//           <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
-//           <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
-//           <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
-//           <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
-//         </Carousel>
-//       </div>
+
 //     );
 //   };
 
 const Home = () => {
 
 
-//     const carouselElement = document.getElementById('carousel-example');
+
+
+// useEffect(() => {
+//     // Initialize Flowbite's carousel after the component has mounted
+//         const carouselElement = document.getElementById('carousel-example');
 //     const carousel = new Carousel(carouselElement);
+//     // const carouselElement = document.getElementById('carousel-example');
+//     // if (carouselElement) {
+//     //   new (window as any).Flowbite.Carousel(carouselElement);
+//     // }
+//   }, []);
 
-// const items = [
-//     {
-//         position: 0,
-//         el: document.getElementById('carousel-item-1'),
-//     },
-//     {
-//         position: 1,
-//         el: document.getElementById('carousel-item-2'),
-//     },
-//     {
-//         position: 2,
-//         el: document.getElementById('carousel-item-3'),
-//     },
-//     {
-//         position: 3,
-//         el: document.getElementById('carousel-item-4'),
-//     },
-// ];
-
-// // options with default values
-// const options = {
-//     defaultPosition: 1,
-//     interval: 3000,
-
-//     indicators: {
-//         activeClasses: 'bg-white dark:bg-gray-800',
-//         inactiveClasses:
-//             'bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800',
-//         items: [
-//             {
-//                 position: 0,
-//                 el: document.getElementById('carousel-indicator-1'),
-//             },
-//             {
-//                 position: 1,
-//                 el: document.getElementById('carousel-indicator-2'),
-//             },
-//             {
-//                 position: 2,
-//                 el: document.getElementById('carousel-indicator-3'),
-//             },
-//             {
-//                 position: 3,
-//                 el: document.getElementById('carousel-indicator-4'),
-//             },
-//         ],
-//     },
-
-//     // callback functions
-//     onNext: () => {
-//         console.log('next slider item is shown');
-//     },
-//     onPrev: () => {
-//         console.log('previous slider item is shown');
-//     },
-//     onChange: () => {
-//         console.log('new slider item has been shown');
-//     },
-// };
-
-// // instance options object
-// const instanceOptions = {
-//   id: 'carousel-example',
-//   override: true
-// };
 return (
     <>
         <h1>dfjaslfjgbksldfjkgjsdfkjg</h1>
 
+        <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
 
+        <button data-tooltip-target="tooltip-default" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Default tooltip</button>
 
-        <div id="default-carousel" className="relative w-full" data-carousel="slide">
-    {/* <!-- Carousel wrapper --> */}
-    <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
-         {/* <!-- Item 1 --> */}
-        <div className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="/docs/images/carousel/carousel-1.svg" className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."/>
-        </div>
-        {/* <!-- Item 2 --> */}
-        <div className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="/docs/images/carousel/carousel-2.svg" className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."/>
-        </div>
-        {/* <!-- Item 3 --> */}
-        <div className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="/docs/images/carousel/carousel-3.svg" className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."/>
-        </div>
-        {/* <!-- Item 4 --> */}
-        <div className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="/docs/images/carousel/carousel-4.svg" className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."/>
-        </div>
-        {/* <!-- Item 5 --> */}
-        <div className="hidden duration-700 ease-in-out" data-carousel-item>
-            <img src="/docs/images/carousel/carousel-5.svg" className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."/>
-        </div>
-    </div>
-    {/* <!-- Slider indicators --> */}
-    <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-        <button type="button" className="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
-        <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 2" data-carousel-slide-to="1"></button>
-        {/* <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 3" data-carousel-slide-to="2"></button> */}
-        {/* <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 4" data-carousel-slide-to="3"></button> */}
-        {/* <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button> */}
-    </div>
-    {/* <!-- Slider controls --> */}
-    <button type="button" className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-            <svg className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-            </svg>
-            <span className="sr-only">Previous</span>
-        </span>
-    </button>
-    <button type="button" className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-            <svg className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-            </svg>
-            <span className="sr-only">Next</span>
-        </span>
-    </button>
+<div id="tooltip-default" role="tooltip" className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+    Tooltip content
+    <div className="tooltip-arrow" data-popper-arrow></div>
 </div>
+      <Carousel>
+        <img src="https://flowbite.com/docs/images/carousel/carousel-1.svg" alt="..." />
+        <img src="https://flowbite.com/docs/images/carousel/carousel-2.svg" alt="..." />
+        <img src="https://flowbite.com/docs/images/carousel/carousel-3.svg" alt="..." />
+        <img src="https://flowbite.com/docs/images/carousel/carousel-4.svg" alt="..." />
+        <img src="https://flowbite.com/docs/images/carousel/carousel-5.svg" alt="..." />
+      </Carousel>
+    </div>
+
+        
 
 {/* <script src="./../dist/app-bundle.js"></script> */}
         </>
