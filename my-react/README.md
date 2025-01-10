@@ -57,3 +57,17 @@ export default tseslint.config({
 pip install djongo
 pip install pymongo
 pip install -r requirements.txt
+
+
+
+
+
+
+npm install flowbite
+npm install @types/react @types/react-dom
+npm install --save-dev typescript
+npm i react-devtools
+npm install -g react-devtools
+npm install flowbite
+npm i react-devtools
+npx webpack --watch
