@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.AppMain{
+    display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.HomeCarusel{
+    height:1000px;
+    /* flex-grow: 1; */
+}
+.tooltip-arrow{
+    height:100%;
+
+}
