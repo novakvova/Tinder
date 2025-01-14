@@ -71,3 +71,7 @@ npm install -g react-devtools
 npm install flowbite
 npm i react-devtools
 npx webpack --watch
+
+npm install antd --save
+npm i @ant-design/icons
+ npm install react-router-dom

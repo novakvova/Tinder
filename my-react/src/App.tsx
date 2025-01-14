@@ -9,6 +9,7 @@ import Home from './pages/home';
 import LoginPage from './pages/looginPage';
 import RegisterPage from './pages/rregisterPage';
 import UserProfile from './pages/usserProfile';
+import CreateUser from './pages/CreateUser';
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
   <Route path="LoginPage"  element={<LoginPage />} />
   <Route path="RegisterPage"  element={<RegisterPage />} />
   <Route path="UserProfile"  element={<UserProfile />} />
+  <Route path="create"  element={<CreateUser/>} />
 
 
 

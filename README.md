@@ -35,6 +35,8 @@ admin
 
 SuperAdminKrot1-
 ```
+Abmin
+Qwerty-1
 
 ```
 .venv\Scripts\activate.bat
