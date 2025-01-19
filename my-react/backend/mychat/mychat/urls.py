@@ -1,5 +1,5 @@
 """
-URL configuration for blog project.
+URL configuration for mychat project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -14,16 +14,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# from django.contrib import admin
-# from django.urls import path
-
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-# ]
-from django.contrib import admin  
-from django.urls import path, include  
-
-urlpatterns = [  
-    path('admin/', admin.site.urls),  
-    path('users/', include('users.urls')),  # Додайте шлях до вашого застосунку  
+from django.contrib import admin
+from django.http import HttpResponse
+from django.urls import path
+from chat.views import chat_view 
+urlpatterns = [
+    path('admin/', admin.site.urls),
+     path('chat/', chat_view, name='chat'),  
+       path('test/', lambda request: HttpResponse('Test page!')),  # Простий тестовий маршрут  
 ]  
+

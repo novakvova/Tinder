@@ -79,3 +79,17 @@ Register user
 cd blog
 py manage.py startapp users
 ```
+
+pip install channels  
+django-admin startproject mychat 
+cd mychat  
+python manage.py startapp chat 
+pip show channels 
+<!-- py manage.py runserver 6379 -->
+python manage.py runserver  
+
+<!-- CRUT user -->
+pip install django
+django-admin startapp users 
+cd backend
+.venv\Scripts\activate.bat

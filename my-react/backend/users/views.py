@@ -71,3 +71,66 @@ class ProfileView(APIView):
             return Response({"message": "Профіль оновлено успішно!", "avatar_url": user.avatar}, status=200)
 
         return Response(serializer.errors, status=400)
+# users/views.py  
+
+# from django.shortcuts import render, redirect, get_object_or_404  
+# from django.views import View  
+# from django.contrib.auth.models import User  
+# from django import forms  
+
+# # Форма для користувача  
+# class UserForm(forms.ModelForm):  
+#     class Meta:  
+#         model = User  
+#         fields = ['username', 'email', 'first_name', 'last_name']  
+
+# # Список користувачів  
+# class UserListView(View):  
+#     def get(self, request):  
+#         users = User.objects.all()  
+#         return render(request, 'users/user_list.html', {'users': users})  
+
+# # Деталі користувача  
+# class UserDetailView(View):  
+#     def get(self, request, pk):  
+#         user = get_object_or_404(User, pk=pk)  
+#         return render(request, 'users/user_detail.html', {'user': user})  
+
+# # Створити користувача  
+# class UserCreateView(View):  
+#     def get(self, request):  
+#         form = UserForm()  
+#         return render(request, 'users/user_form.html', {'form': form})  
+
+#     def post(self, request):  
+#         form = UserForm(request.POST)  
+#         if form.is_valid():  
+#             form.save()  
+#             return redirect('user_list')  
+#         return render(request, 'users/user_form.html', {'form': form})  
+
+# # Оновити користувача  
+# class UserUpdateView(View):  
+#     def get(self, request, pk):  
+#         user = get_object_or_404(User, pk=pk)  
+#         form = UserForm(instance=user)  
+#         return render(request, 'users/user_form.html', {'form': form})  
+
+#     def post(self, request, pk):  
+#         user = get_object_or_404(User, pk=pk)  
+#         form = UserForm(request.POST, instance=user)  
+#         if form.is_valid():  
+#             form.save()  
+#             return redirect('user_list')  
+#         return render(request, 'users/user_form.html', {'form': form})  
+
+# # Видалити користувача  
+# class UserDeleteView(View):  
+#     def get(self, request, pk):  
+#         user = get_object_or_404(User, pk=pk)  
+#         return render(request, 'users/user_confirm_delete.html', {'user': user})  
+
+#     def post(self, request, pk):  
+#         user = get_object_or_404(User, pk=pk)  
+#         user.delete()  
+#         return redirect('user_list')
