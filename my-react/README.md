@@ -75,3 +75,4 @@ npx webpack --watch
 npm install antd --save
 npm i @ant-design/icons
  npm install react-router-dom
+ npm install @ant-design/icons --save
