@@ -1,0 +1,99 @@
+
+.register-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ff7854, #fd267d);
+    font-family: 'Arial', sans-serif;
+  }
+
+  .register-container {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 350px;
+  }
+  
+
+  .register-header {
+    margin-bottom: 20px;
+  }
+  
+  .register-logo {
+    width: 120px;
+    margin: 0 auto;
+    display: block;
+  }
+  
+
+  .register-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+
+  .register-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s ease;
+  }
+  
+  .register-input:focus {
+    border-color: #fd267d;
+    box-shadow: 0 0 4px rgba(253, 38, 125, 0.5);
+  }
+  
+
+  .register-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #fd267d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .register-button:hover {
+    background-color: #ff4060;
+  }
+  
+  .login-redirect-button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 12px;
+    background-color: transparent;
+    color: #fd267d;
+    border: 2px solid #fd267d;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+  }
+  
+  .login-redirect-button:hover {
+    background-color: #fd267d;
+    color: #fff;
+  }
+  
+
+  .register-message {
+    margin-top: 15px;
+    font-size: 14px;
+    color: red;
+  }
+  

@@ -1,80 +1,15 @@
-/* UserProfile.css */
+.user-profile {
+  background-color: #f0f2f5;
+  min-height: 100vh;
+}
 
-.user-profile-container {
-    min-height: 100vh;
-    background: linear-gradient(to right, #f472b6, #f43f5e);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-  }
-  
-  .profile-card {
-    background-color: white;
-    padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 320px;
-  }
-  
-  .profile-avatar {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    cursor: pointer;
-  }
-  
-  #avatar-upload {
-    display: none;
-  }
-  
-  
-  .profile-input {
-    width: 100%;
-    margin-top: 8px;
-    padding: 8px 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    outline: none;
-    font-size: 16px;
-    color: #333;
-    background-color: #fff;
-  }
-  
-  .profile-input:focus {
-    border-color: #3b82f6;
-    box-shadow: 0 0 4px rgba(59, 130, 246, 0.5);
-  }
-  
-  .profile-button {
-    background-color: #3b82f6;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: none;
-  }
-  
-  .profile-button:hover {
-    background-color: #2563eb;
-  }
-  
-  .logout-button {
-    margin-top: 24px;
-    background-color: #f43f5e;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border: none;
-  }
-  
-  .logout-button:hover {
-    background-color: #e11d48;
-  }
-  
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.profile-input {
+  margin-bottom: 16px;
+}

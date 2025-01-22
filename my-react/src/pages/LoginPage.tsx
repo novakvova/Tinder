@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
-
+import '../styles/LoginPage.css'; 
 
 interface LoginResponse {
   access: string;
@@ -24,64 +24,64 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post<LoginResponse>('/login/', formData); 
-      const { access, refresh } = response.data; 
-
-     
+      const response = await axios.post<LoginResponse>('/login/', formData);
+      console.log('Response:', response.data);
+  
+      const { access, refresh } = response.data;
       localStorage.setItem('access', access);
       localStorage.setItem('refresh', refresh);
-
+  
       setMessage('Авторизація успішна!');
-      navigate('/profile'); 
+      navigate('/home'); 
     } catch (error) {
       setMessage("Помилка авторизації. Перевірте ім'я користувача та пароль.");
+      console.error('Помилка авторизації:', error);
     }
   };
+  
 
   const handleRegisterRedirect = () => {
-    navigate('/register'); 
+    navigate('/register');
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 to-blue-600">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Авторизація</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-700 font-medium">Ім'я користувача:</label>
-            <input
-              type="text"
-              name="username"
-              placeholder="Ім'я користувача"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              className="w-full mt-1 px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-medium">Пароль:</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Пароль"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full mt-1 px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
-          >
+    <div className="login-page">
+      <div className="login-container">
+        <div className="login-header">
+          <img
+            src="https://seeklogo.com/images/T/tinder-logo-9F4972F2FE-seeklogo.com.png"
+            alt="Tinder Logo"
+            className="login-logo"
+          />
+        </div>
+        <h1 className="login-title">Увійдіть у свій акаунт</h1>
+        <form onSubmit={handleSubmit} className="login-form">
+          <input
+            type="text"
+            name="username"
+            placeholder="Ім'я користувача"
+            value={formData.username}
+            onChange={handleChange}
+            required
+            className="login-input"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Пароль"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="login-input"
+          />
+          <button type="submit" className="login-button">
             Увійти
           </button>
         </form>
         {message && (
           <p
-            className={`mt-4 text-center ${
-              message === 'Авторизація успішна!' ? 'text-green-500' : 'text-red-500'
+            className={`login-message ${
+              message === 'Авторизація успішна!' ? 'success' : 'error'
             }`}
           >
             {message}
@@ -89,7 +89,7 @@ const LoginPage: React.FC = () => {
         )}
         <button
           onClick={handleRegisterRedirect}
-          className="mt-4 w-full bg-gray-300 text-gray-800 py-2 rounded-md hover:bg-gray-400 transition"
+          className="register-button"
         >
           Створити акаунт
         </button>

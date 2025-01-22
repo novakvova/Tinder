@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axiosInstance from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
+import '../styles/RegisterPage.css'; // Стилі для реєстрації
 
 const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,7 @@ const RegisterPage: React.FC = () => {
     password: '',
   });
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,67 +21,71 @@ const RegisterPage: React.FC = () => {
     try {
       await axiosInstance.post('register/', formData);
       setMessage('Реєстрація успішна! Перенаправлення на авторизацію...');
-      
-      
+
       setTimeout(() => {
-        navigate('/login'); 
+        navigate('/login');
       }, 2000);
     } catch (error) {
       setMessage('Помилка реєстрації. Перевірте введені дані.');
     }
   };
 
+  const handleLoginRedirect = () => {
+    navigate('/login'); // Перенаправлення на сторінку авторизації
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h1 className="text-2xl font-bold mb-6 text-center">Реєстрація</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-gray-700">Ім'я користувача:</label>
-            <input
-              type="text"
-              name="username"
-              placeholder="Ім'я користувача"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              className="w-full mt-1 px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700">Електронна пошта:</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Електронна пошта"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full mt-1 px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700">Пароль:</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Пароль"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full mt-1 px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
-          >
+    <div className="register-page">
+      <div className="register-container">
+        <div className="register-header">
+          <img
+            src="https://seeklogo.com/images/T/tinder-logo-9F4972F2FE-seeklogo.com.png"
+            alt="Tinder Logo"
+            className="register-logo"
+          />
+        </div>
+        <h1 className="register-title">Створіть акаунт</h1>
+        <form onSubmit={handleSubmit} className="register-form">
+          <input
+            type="text"
+            name="username"
+            placeholder="Ім'я користувача"
+            value={formData.username}
+            onChange={handleChange}
+            required
+            className="register-input"
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Електронна пошта"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="register-input"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Пароль"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="register-input"
+          />
+          <button type="submit" className="register-button">
             Зареєструватися
           </button>
         </form>
         {message && (
-          <p className="mt-4 text-center text-red-500">{message}</p>
+          <p className="register-message">{message}</p>
         )}
+        <button
+          onClick={handleLoginRedirect}
+          className="login-redirect-button"
+        >
+          Вже маєте акаунт? Авторизуйтесь
+        </button>
       </div>
     </div>
   );
