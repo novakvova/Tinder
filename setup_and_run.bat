@@ -1,19 +1,17 @@
-:: Створення віртуального середовища Python
+
 echo === Створення віртуального середовища ===
-cd my-react\backend
+cd backend
 python -m venv venv
 call venv\Scripts\activate
-
-:: Встановлення Python-залежностей
 echo === Встановлюємо залежності Python ===
 pip install --upgrade pip
 pip install -r requirements.txt
 
-:: Встановлення npm-залежностей
-echo === Встановлюємо npm залежності ===
-cd ..\..
+
+echo === Встановлюємо залежності фронтенду ===
+cd ..\my-react
 npm install
 
-:: Готово
+
 echo === Всі залежності успішно встановлені! ===
 pause
