@@ -21,7 +21,7 @@
 ### 1. Клонування репозиторію
 Якщо проєкт ще не завантажений:
 ```bash
-git clone <URL_репозиторію>
+git clone https://github.com/novakvova/Tinder.git
 cd Tinder
 ```
 
