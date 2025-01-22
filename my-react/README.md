@@ -1,59 +1,152 @@
-# React + TypeScript + Vite
+# README для запуску проєкту Tinder
 
-```
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-```
+## Вступ
+Цей проєкт є копією соціальної мережі Tinder, розробленою за допомогою **Django** на бекенді та **React + TypeScript** на фронтенді. У цьому документі детально описані всі команди для запуску серверної та клієнтської частин, а також корисні команди для управління проєктом.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+## Вимоги
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Перед початком роботи переконайтеся, що у вас встановлено:
 
-## Expanding the ESLint configuration
+- **Python 3.10+**
+- **Node.js 18+**
+- **npm** або **yarn**
+- **Git**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## Інструкція з встановлення
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+### 1. Клонування репозиторію
+Якщо проєкт ще не завантажений:
+```bash
+git clone <URL_репозиторію>
+cd Tinder
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### 2. Налаштування бекенду
+1. Перейдіть до папки бекенду:
+   ```bash
+   cd my-react/backend
+   ```
+2. Створіть віртуальне середовище:
+   ```bash
+   python -m venv venv
+   ```
+3. Активуйте віртуальне середовище:
+   - Для Windows:
+     ```bash
+     venv\Scripts\activate
+     ```
+   - Для macOS/Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+4. Встановіть залежності Python:
+   ```bash
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
 
-```js
-// eslint.config.js
-import react from "eslint-plugin-react";
+5. Запустіть сервер Django:
+   ```bash
+   python manage.py runserver
+   ```
+   Сервер буде доступний за адресою: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: "18.3" } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs["jsx-runtime"].rules,
-  },
-});
-```
+### 3. Налаштування фронтенду
+1. Перейдіть до папки з фронтендом:
+   ```bash
+   cd my-react
+   ```
+2. Встановіть залежності:
+   ```bash
+   npm install
+   ```
+3. Запустіть фронтенд-сервер:
+   ```bash
+   npm run dev
+   ```
+   Фронтенд буде доступний за адресою: [http://127.0.0.1:5173](http://127.0.0.1:5173)
 
-pip install djongo
-pip install pymongo
-pip install -r requirements.txt
+---
+
+## Корисні команди
+
+### Для бекенду (Django)
+
+- **Міграції бази даних:**
+  ```bash
+  python manage.py makemigrations
+  python manage.py migrate
+  ```
+
+- **Створення суперкористувача:**
+  ```bash
+  python manage.py createsuperuser
+  ```
+
+- **Очистка бази даних (необов'язково):**
+  ```bash
+  python manage.py flush
+  ```
+
+- **Запуск тестів:**
+  ```bash
+  python manage.py test
+  ```
+
+- **Завершення роботи з віртуальним середовищем:**
+  ```bash
+  deactivate
+  ```
+
+### Для фронтенду (React + Vite)
+
+- **Збірка проєкту для продакшену:**
+  ```bash
+  npm run build
+  ```
+
+- **Попередній перегляд зібраного додатку:**
+  ```bash
+  npm run preview
+  ```
+
+- **Перевірка та форматування коду ESLint:**
+  ```bash
+  npm run lint
+  ```
+
+- **Оновлення залежностей:**
+  ```bash
+  npm update
+  ```
+
+---
+
+## Як оновити файл requirements.txt
+
+1. Активуйте віртуальне середовище:
+   - Для Windows:
+     ```bash
+     venv\Scripts\activate
+     ```
+   - Для macOS/Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+
+2. Оновіть всі пакети:
+   ```bash
+   pip install --upgrade -r requirements.txt
+   ```
+
+3. Збережіть оновлення у `requirements.txt`:
+   ```bash
+   pip freeze > requirements.txt
+   ```
+
+---
+
