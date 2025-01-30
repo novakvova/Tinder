@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axiosInstance from '../axiosInstance';
 import { useNavigate } from 'react-router-dom';
-import '../styles/RegisterPage.css'; // Стилі для реєстрації
+import '../styles/RegisterPage.css'; 
 
 const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState({

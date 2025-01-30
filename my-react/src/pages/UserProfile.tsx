@@ -36,11 +36,19 @@ const UserProfile: React.FC = () => {
   }, []);
 
   const handleAvatarChange = (info: any) => {
-    if (info.file.status === 'done') {
-      setAvatarFile(info.file.originFileObj as File);
-      message.success('Аватар успішно завантажено!');
+    const file = info.file.originFileObj || info.file; // Переконуємося, що це дійсно File
+  
+    if (!file) {
+      console.error("⚠️ Файл не передано!", info.file);
+      return;
     }
+  
+    setAvatarFile(file);
+    setEditableUser((prev) => ({ ...prev, avatar: URL.createObjectURL(file) })); // Оновлюємо preview
+    message.success('Аватар успішно завантажено!');
   };
+  
+  
 
   const handleEditProfile = async () => {
     try {
@@ -48,23 +56,38 @@ const UserProfile: React.FC = () => {
       const formData = new FormData();
       formData.append('display_name', editableUser.display_name);
       formData.append('bio', editableUser.bio);
-      if (avatarFile) formData.append('avatar', avatarFile);
-
+  
+      if (avatarFile) {
+        formData.append('avatar', avatarFile);
+        console.log("📂 Файл додається у FormData:", avatarFile);
+      } else {
+        console.warn("⚠️ Файл не вибрано!");
+      }
+  
+      console.log("📤 Відправка FormData:", formData);
+  
       const response = await axios.put('/profile/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${localStorage.getItem("access")}` // Додаємо токен
         },
       });
-
+  
+      console.log("✅ Відповідь від сервера:", response.data);
+  
       message.success('Профіль оновлено успішно!');
       setUser(response.data as UserProfileData);
+      setEditableUser(response.data as UserProfileData);
     } catch (error) {
-      console.error('Помилка при оновленні профілю:', error);
+      console.error('❌ Помилка при оновленні профілю:', error);
       message.error('Помилка при оновленні профілю.');
     } finally {
       setLoading(false);
     }
   };
+  
+  
+  
 
   if (!user) {
     return <div>Завантаження профілю...</div>;
@@ -75,12 +98,21 @@ const UserProfile: React.FC = () => {
       <Navbar />
       <div className="profile-container">
         <Card>
-          <Upload accept="image/*" showUploadList={false} beforeUpload={() => false} onChange={handleAvatarChange}>
-            <Avatar src={avatarFile ? URL.createObjectURL(avatarFile) : user.avatar} size={100} />
-            <Button type="link" icon={<UploadOutlined />}>
-              Завантажити аватар
-            </Button>
-          </Upload>
+        <Upload accept="image/*" showUploadList={false} beforeUpload={() => false} onChange={handleAvatarChange}>
+  <Avatar 
+    src={avatarFile 
+      ? URL.createObjectURL(avatarFile) 
+      : user.avatar.startsWith("http") 
+        ? user.avatar 
+        : `https://tinderphoto.blob.core.windows.net/media/${user.avatar}`
+    } 
+    size={100} 
+  />
+  <Button type="link" icon={<UploadOutlined />}>
+    Завантажити аватар
+  </Button>
+</Upload>
+
           <Input
             name="display_name"
             value={editableUser.display_name}

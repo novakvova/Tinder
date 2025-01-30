@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from django.conf import settings  # Імпортуємо налаштування Django
-
+from django.conf import settings 
+from .models import CustomUser
 CustomUser = get_user_model()
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -31,3 +31,4 @@ class ProfileSerializer(serializers.ModelSerializer):
         if obj.avatar and obj.avatar.name:
             return f"https://{settings.AZURE_ACCOUNT_NAME}.blob.core.windows.net/{settings.AZURE_CONTAINER}/{obj.avatar.name}"
         return None
+
