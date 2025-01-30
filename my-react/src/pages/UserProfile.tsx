@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../axiosInstance';
-import { Avatar, Button, Card, Input, Upload, message } from 'antd';
-import { UploadOutlined, SaveOutlined } from '@ant-design/icons';
+import { Avatar, Button, Card, Input, Upload, message, Spin } from 'antd';
+import { UploadOutlined, SettingOutlined } from '@ant-design/icons';
 import Navbar from '../components/Navbar';
 import '../styles/UserProfile.css';
 
@@ -20,6 +20,7 @@ const UserProfile: React.FC = () => {
   });
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -36,19 +37,15 @@ const UserProfile: React.FC = () => {
   }, []);
 
   const handleAvatarChange = (info: any) => {
-    const file = info.file.originFileObj || info.file; // Переконуємося, що це дійсно File
-  
+    const file = info.file.originFileObj || info.file;
     if (!file) {
       console.error("⚠️ Файл не передано!", info.file);
       return;
     }
-  
     setAvatarFile(file);
-    setEditableUser((prev) => ({ ...prev, avatar: URL.createObjectURL(file) })); // Оновлюємо preview
+    setEditableUser((prev) => ({ ...prev, avatar: URL.createObjectURL(file) }));
     message.success('Аватар успішно завантажено!');
   };
-  
-  
 
   const handleEditProfile = async () => {
     try {
@@ -56,28 +53,22 @@ const UserProfile: React.FC = () => {
       const formData = new FormData();
       formData.append('display_name', editableUser.display_name);
       formData.append('bio', editableUser.bio);
-  
+
       if (avatarFile) {
         formData.append('avatar', avatarFile);
-        console.log("📂 Файл додається у FormData:", avatarFile);
-      } else {
-        console.warn("⚠️ Файл не вибрано!");
       }
-  
-      console.log("📤 Відправка FormData:", formData);
-  
+
       const response = await axios.put('/profile/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${localStorage.getItem("access")}` // Додаємо токен
+          'Authorization': `Bearer ${localStorage.getItem("access")}`
         },
       });
-  
-      console.log("✅ Відповідь від сервера:", response.data);
-  
+
       message.success('Профіль оновлено успішно!');
       setUser(response.data as UserProfileData);
       setEditableUser(response.data as UserProfileData);
+      setIsEditing(false);
     } catch (error) {
       console.error('❌ Помилка при оновленні профілю:', error);
       message.error('Помилка при оновленні профілю.');
@@ -85,52 +76,69 @@ const UserProfile: React.FC = () => {
       setLoading(false);
     }
   };
-  
-  
-  
 
   if (!user) {
-    return <div>Завантаження профілю...</div>;
+    return (
+      <div className="profile-loading-container">
+        <Spin size="large" />
+      </div>
+    );
   }
 
   return (
     <div className="user-profile">
       <Navbar />
       <div className="profile-container">
-        <Card>
-        <Upload accept="image/*" showUploadList={false} beforeUpload={() => false} onChange={handleAvatarChange}>
-  <Avatar 
-    src={avatarFile 
-      ? URL.createObjectURL(avatarFile) 
-      : user.avatar.startsWith("http") 
-        ? user.avatar 
-        : `https://tinderphoto.blob.core.windows.net/media/${user.avatar}`
-    } 
-    size={100} 
-  />
-  <Button type="link" icon={<UploadOutlined />}>
-    Завантажити аватар
-  </Button>
-</Upload>
+        <Card className="profile-card">
+          <Upload accept="image/*" showUploadList={false} beforeUpload={() => false} onChange={handleAvatarChange}>
+            <Avatar 
+              src={avatarFile 
+                ? URL.createObjectURL(avatarFile) 
+                : user?.avatar?.startsWith("http") 
+                  ? user.avatar 
+                  : user?.avatar 
+                    ? `https://tinderphoto.blob.core.windows.net/media/${user.avatar}` 
+                    : undefined
+              } 
+              size={120} 
+              className="profile-avatar"
+              onClick={() => setIsEditing(true)}
+            />
+          </Upload>
 
-          <Input
-            name="display_name"
-            value={editableUser.display_name}
-            onChange={(e) => setEditableUser({ ...editableUser, display_name: e.target.value })}
-            placeholder="Ім'я користувача"
-            className="profile-input"
-          />
-          <Input.TextArea
-            name="bio"
-            value={editableUser.bio}
-            onChange={(e) => setEditableUser({ ...editableUser, bio: e.target.value })}
-            placeholder="Про себе"
-            rows={4}
-            className="profile-input"
-          />
-          <Button type="primary" onClick={handleEditProfile} icon={<SaveOutlined />} loading={loading}>
-            Зберегти зміни
-          </Button>
+          {!isEditing ? (
+            <>
+              <h2 className="profile-display-name">{user?.display_name || "Немає імені"}</h2>
+              <p className="profile-bio">{user?.bio || "Опис відсутній"}</p>
+              <Button 
+                type="text" 
+                icon={<SettingOutlined />} 
+                onClick={() => setIsEditing(true)} 
+                className="settings-btn" 
+              />
+            </>
+          ) : (
+            <>
+              <Input
+                name="display_name"
+                value={editableUser.display_name}
+                onChange={(e) => setEditableUser({ ...editableUser, display_name: e.target.value })}
+                placeholder="Ім'я користувача"
+                className="profile-input"
+              />
+              <Input.TextArea
+                name="bio"
+                value={editableUser.bio}
+                onChange={(e) => setEditableUser({ ...editableUser, bio: e.target.value })}
+                placeholder="Про себе"
+                rows={4}
+                className="profile-input"
+              />
+              <Button type="primary" onClick={handleEditProfile} loading={loading}>
+                Зберегти зміни
+              </Button>
+            </>
+          )}
         </Card>
       </div>
     </div>
