@@ -1,13 +1,9 @@
 import React from 'react';
 import { Menu, Dropdown } from 'antd';
-import { UserOutlined, LogoutOutlined, HomeOutlined, MoreOutlined, SettingOutlined } from '@ant-design/icons';
+import { UserOutlined, LogoutOutlined, HomeOutlined, MoreOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-interface NavbarProps {
-  onEditProfile?: () => void; 
-}
-
-const Navbar: React.FC<NavbarProps> = ({ onEditProfile }) => {
+const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -17,36 +13,39 @@ const Navbar: React.FC<NavbarProps> = ({ onEditProfile }) => {
     navigate('/login');
   };
 
-  const isProfilePage = location.pathname === '/profile';
+  const menuItems = [
+    {
+      key: 'logout',
+      icon: <LogoutOutlined />,
+      label: 'Вийти',
+      onClick: handleLogout,
+    },
+  ];
 
-  const menu = (
-    <Menu>
-      {isProfilePage && (
-        <Menu.Item key="edit-profile" icon={<SettingOutlined />} onClick={onEditProfile}>
-          Редагувати профіль
-        </Menu.Item>
-      )}
-      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleLogout}>
-        Вийти
-      </Menu.Item>
-    </Menu>
-  );
-
-  return (
-    <Menu mode="horizontal" selectedKeys={[location.pathname]} className="navbar">
-      <Menu.Item key="/home" icon={<HomeOutlined />} onClick={() => navigate('/home')}>
-        Головна
-      </Menu.Item>
-      <Menu.Item key="/profile" icon={<UserOutlined />} onClick={() => navigate('/profile')}>
-        Профіль
-      </Menu.Item>
-      <Menu.Item key="more">
-        <Dropdown overlay={menu} trigger={['click']}>
+  const navbarItems = [
+    {
+      key: '/home',
+      icon: <HomeOutlined />,
+      label: 'Головна',
+      onClick: () => navigate('/home'),
+    },
+    {
+      key: '/profile',
+      icon: <UserOutlined />,
+      label: 'Профіль',
+      onClick: () => navigate('/profile'),
+    },
+    {
+      key: 'more',
+      label: (
+        <Dropdown menu={{ items: menuItems }} trigger={['click']} placement="bottomRight">
           <MoreOutlined style={{ fontSize: '18px', cursor: 'pointer' }} />
         </Dropdown>
-      </Menu.Item>
-    </Menu>
-  );
+      ),
+    },
+  ];
+
+  return <Menu mode="horizontal" selectedKeys={[location.pathname]} className="navbar" items={navbarItems} />;
 };
 
 export default Navbar;

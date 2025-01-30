@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../axiosInstance';
-import { Avatar, Button, Card, Input, Upload, message, Spin } from 'antd';
-import { UploadOutlined, SettingOutlined } from '@ant-design/icons';
+import { Avatar, Button, Card, Input, Upload, message, Spin, Dropdown, Menu } from 'antd';
+import { UploadOutlined, SettingOutlined, MoreOutlined } from '@ant-design/icons';
 import Navbar from '../components/Navbar';
 import '../styles/UserProfile.css';
 
@@ -85,11 +85,24 @@ const UserProfile: React.FC = () => {
     );
   }
 
+  const menu = (
+    <Menu>
+      <Menu.Item key="edit" icon={<SettingOutlined />} onClick={() => setIsEditing(true)}>
+        Редагувати профіль
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <div className="user-profile">
       <Navbar />
       <div className="profile-container">
         <Card className="profile-card">
+          {/* Додано меню ... для редагування */}
+          <Dropdown overlay={menu} trigger={['click']} placement="bottomRight">
+            <Button type="text" icon={<MoreOutlined />} className="profile-more-btn" />
+          </Dropdown>
+
           <Upload accept="image/*" showUploadList={false} beforeUpload={() => false} onChange={handleAvatarChange}>
             <Avatar 
               src={avatarFile 
@@ -102,7 +115,6 @@ const UserProfile: React.FC = () => {
               } 
               size={120} 
               className="profile-avatar"
-              onClick={() => setIsEditing(true)}
             />
           </Upload>
 
@@ -110,12 +122,6 @@ const UserProfile: React.FC = () => {
             <>
               <h2 className="profile-display-name">{user?.display_name || "Немає імені"}</h2>
               <p className="profile-bio">{user?.bio || "Опис відсутній"}</p>
-              <Button 
-                type="text" 
-                icon={<SettingOutlined />} 
-                onClick={() => setIsEditing(true)} 
-                className="settings-btn" 
-              />
             </>
           ) : (
             <>
