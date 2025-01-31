@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../axiosInstance";
 import Navbar from "../components/Navbar";
-import { PencilIcon, UploadIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 
 interface SurveyData {
   age: number;
@@ -22,29 +22,24 @@ const SurveyPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
+  // Завантаження анкети при завантаженні сторінки
   useEffect(() => {
     const fetchSurvey = async () => {
-        try {
-          const response = await axios.get<SurveyData>("/api/survey/", {
-            headers: { Authorization: `Bearer ${localStorage.getItem("access")}` }
-          });
-          setSurvey(response.data);
-        } catch (error) {
-          console.error("❌ Помилка завантаження анкети:", error);
-        }
-      };
-      
-  
+      try {
+        const response = await axios.get<SurveyData>("/api/survey/", {
+          headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+        });
+        setSurvey(response.data);
+        setEditableSurvey(response.data);
+      } catch (error) {
+        console.error("❌ Помилка завантаження анкети:", error);
+      }
+    };
+
     fetchSurvey();
   }, []);
 
-  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setPhotoFile(file);
-    setEditableSurvey((prev) => ({ ...prev, photo: URL.createObjectURL(file) }));
-  };
-
+  // Оновлення анкети (без фото)
   const handleEditSurvey = async () => {
     try {
       setLoading(true);
@@ -53,11 +48,7 @@ const SurveyPage: React.FC = () => {
       formData.append("gender", editableSurvey.gender);
       formData.append("interests", editableSurvey.interests);
 
-      if (photoFile) {
-        formData.append("photo", photoFile);
-      }
-
-      const response = await axios.put<SurveyData>("/survey/", formData, {
+      const response = await axios.put<SurveyData>("/api/survey/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("access")}`,
@@ -72,6 +63,42 @@ const SurveyPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Завантаження фото окремим запитом
+  const handlePhotoUpload = async (file: File) => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("photo", file);
+
+      await axios.post("/api/survey/upload-photo/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      });
+
+      // Оновлюємо анкету після завантаження фото
+      const response = await axios.get<SurveyData>("/api/survey/", {
+        headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
+      });
+      setSurvey(response.data);
+      setEditableSurvey(response.data);
+    } catch (error) {
+      console.error("❌ Помилка при завантаженні фото:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Обробка вибору файлу фото
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPhotoFile(file);
+    setEditableSurvey((prev) => ({ ...prev, photo: URL.createObjectURL(file) }));
+    handlePhotoUpload(file); // ✅ Автоматично завантажує фото
   };
 
   return (

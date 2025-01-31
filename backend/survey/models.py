@@ -8,7 +8,7 @@ class UserSurvey(models.Model):
     age = models.PositiveIntegerField(default=18)
     gender = models.CharField(max_length=10, choices=[("male", "Чоловік"), ("female", "Жінка")], default="male")
     interests = models.TextField(blank=True, null=True)
-    photo = models.URLField(blank=True, null=True)  # ❌ Видалено поле "bio"
+    photo = models.URLField(max_length=500, blank=True, null=True)  
 
     def __str__(self):
         return f"Анкета {self.user.username}"

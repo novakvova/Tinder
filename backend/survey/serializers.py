@@ -4,4 +4,4 @@ from .models import UserSurvey
 class UserSurveySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserSurvey
-        fields = "__all__"
+        fields = ["age", "gender", "interests", "photo"]  
