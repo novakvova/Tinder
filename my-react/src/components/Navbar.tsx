@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="bg-gradient-to-r from-pink-500 to-orange-500 p-4 shadow-md flex justify-between items-center">
-      {/* Лівий блок навігації */}
+      {}
       <div className="flex space-x-6">
         <Link
           to="/home"
@@ -42,7 +42,7 @@ const Navbar: React.FC = () => {
         </Link>
       </div>
 
-      {/* Кнопка виходу */}
+      {}
       <button
         onClick={handleLogout}
         className="flex items-center gap-2 text-white font-semibold bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition shadow-md"
