@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import UserProfile from "./pages/UserProfile";
+import SurveyPage from "./pages/SurveyPage";
 import HomePage from "./pages/HomePage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -10,7 +11,7 @@ const App: React.FC = () => {
   const isAuthenticated = !!localStorage.getItem("access");
 
   return (
-    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    <Router>
       <Routes>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -19,6 +20,14 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute isAuthenticated={isAuthenticated}>
               <UserProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/survey"
+          element={
+            <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <SurveyPage />
             </ProtectedRoute>
           }
         />
