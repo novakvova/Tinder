@@ -1,51 +1,48 @@
-import React from 'react';
-import { Menu, Dropdown } from 'antd';
-import { UserOutlined, LogoutOutlined, HomeOutlined, MoreOutlined } from '@ant-design/icons';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { HomeIcon, UserIcon, LogOutIcon } from "lucide-react";
 
 const Navbar: React.FC = () => {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('access');
-    localStorage.removeItem('refresh');
-    navigate('/login');
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    navigate("/login");
   };
 
-  const menuItems = [
-    {
-      key: 'logout',
-      icon: <LogoutOutlined />,
-      label: 'Вийти',
-      onClick: handleLogout,
-    },
-  ];
+  return (
+    <nav className="bg-gradient-to-r from-pink-500 to-orange-500 p-4 shadow-md flex justify-between items-center">
+      {}
+      <div className="flex space-x-6">
+        <Link
+          to="/home"
+          className={`text-white font-semibold flex items-center gap-2 ${
+            location.pathname === "/home" ? "opacity-100" : "opacity-75 hover:opacity-100"
+          } transition`}
+        >
+          <HomeIcon size={20} /> Головна
+        </Link>
+        <Link
+          to="/profile"
+          className={`text-white font-semibold flex items-center gap-2 ${
+            location.pathname === "/profile" ? "opacity-100" : "opacity-75 hover:opacity-100"
+          } transition`}
+        >
+          <UserIcon size={20} /> Профіль
+        </Link>
+      </div>
 
-  const navbarItems = [
-    {
-      key: '/home',
-      icon: <HomeOutlined />,
-      label: 'Головна',
-      onClick: () => navigate('/home'),
-    },
-    {
-      key: '/profile',
-      icon: <UserOutlined />,
-      label: 'Профіль',
-      onClick: () => navigate('/profile'),
-    },
-    {
-      key: 'more',
-      label: (
-        <Dropdown menu={{ items: menuItems }} trigger={['click']} placement="bottomRight">
-          <MoreOutlined style={{ fontSize: '18px', cursor: 'pointer' }} />
-        </Dropdown>
-      ),
-    },
-  ];
-
-  return <Menu mode="horizontal" selectedKeys={[location.pathname]} className="navbar" items={navbarItems} />;
+      {}
+      <button
+        onClick={handleLogout}
+        className="flex items-center gap-2 text-white font-semibold bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg transition shadow-md"
+      >
+        <LogOutIcon size={18} /> Вийти
+      </button>
+    </nav>
+  );
 };
 
 export default Navbar;

@@ -2,27 +2,25 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 from datetime import timedelta
-
-
+import dj_database_url
+# Завантажуємо змінні середовища
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+# Безпека
 SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
-
-
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
-# Azure Storage
+# **Конфігурація Azure Storage**
 DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
 AZURE_ACCOUNT_NAME = os.getenv("AZURE_ACCOUNT_NAME")
 AZURE_ACCOUNT_KEY = os.getenv("AZURE_ACCOUNT_KEY")
 AZURE_CONTAINER = os.getenv("AZURE_CONTAINER", "media")
 
-# Installed apps
+# **Додатки**
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -32,6 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'corsheaders',
+    'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -65,23 +65,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-# Database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'eZCWHTtBDjpTXbtgedhnoJYaSgZyOdIx',
-        'HOST': 'autorack.proxy.rlwy.net',
-        'PORT': '58394',
-    }
+    'default': dj_database_url.config(default=os.getenv("DATABASE_PUBLIC_URL"))
 }
+
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Static files
+# **Статичні файли**
 STATIC_URL = '/static/'
 
-# Rest Framework
+# **JWT Authentication**
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -101,9 +95,11 @@ SIMPLE_JWT = {
     'SIGNING_KEY': SECRET_KEY,
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+
+# **Модель користувача**
 AUTH_USER_MODEL = 'users.CustomUser'
 
-# CORS
+# **CORS (Для React)**
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
