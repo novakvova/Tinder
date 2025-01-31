@@ -35,29 +35,46 @@ class UploadPhotoView(APIView):
     parser_classes = [MultiPartParser, FormParser]
 
     def post(self, request):
-        survey = get_object_or_404(UserSurvey, user=request.user)
+        survey, created = UserSurvey.objects.get_or_create(user=request.user)  
 
-        if "photo" in request.FILES:
-            photo_file = request.FILES["photo"]
+        if "photo" not in request.FILES:
+            return Response({"error": "Файл не надіслано"}, status=400)
 
-            try:
-                blob_service_client = BlobServiceClient.from_connection_string(os.getenv("AZURE_STORAGE_CONNECTION_STRING"))
-                container_client = blob_service_client.get_container_client(os.getenv("AZURE_CONTAINER"))
+        photo_file = request.FILES["photo"]
 
-                blob_name = f"survey_photos/{uuid.uuid4()}_{photo_file.name}"
-                blob_client = container_client.get_blob_client(blob_name)
-                blob_client.upload_blob(photo_file, overwrite=True)
+        try:
+          
+            blob_service_client = BlobServiceClient.from_connection_string(os.getenv("AZURE_STORAGE_CONNECTION_STRING"))
+            container_client = blob_service_client.get_container_client(os.getenv("AZURE_CONTAINER"))
 
-            
-                photo_url = f"https://{os.getenv('AZURE_ACCOUNT_NAME')}.blob.core.windows.net/{os.getenv('AZURE_CONTAINER')}/{blob_name}"
+          
+            blob_name = f"survey_photos/{uuid.uuid4()}_{photo_file.name}"
+            blob_client = container_client.get_blob_client(blob_name)
 
-                
-                survey.photo = photo_url
-                survey.save()
+          
+            blob_client.upload_blob(photo_file, overwrite=True)
 
-                return Response({"message": "Фото успішно завантажено!", "photo_url": photo_url}, status=200)
+           
+            photo_url = f"https://{os.getenv('AZURE_ACCOUNT_NAME')}.blob.core.windows.net/{os.getenv('AZURE_CONTAINER')}/{blob_name}"
 
-            except Exception as e:
-                return Response({"error": f"Помилка під час завантаження фото: {str(e)}"}, status=500)
+            survey.photo = photo_url
+            survey.save()
 
-        return Response({"error": "Файл не надіслано"}, status=400)
+            return Response({"message": "Фото успішно завантажено!", "photo_url": photo_url}, status=200)
+
+        except Exception as e:
+            return Response({"error": f"Помилка під час завантаження фото: {str(e)}"}, status=500)
+class SurveyListView(APIView):
+   
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        surveys = UserSurvey.objects.exclude(user=request.user)  
+        serialized_surveys = [
+            {
+                **UserSurveySerializer(survey).data,
+                "name": survey.user.display_name or survey.user.username,  
+            }
+            for survey in surveys
+        ]
+        return Response(serialized_surveys)

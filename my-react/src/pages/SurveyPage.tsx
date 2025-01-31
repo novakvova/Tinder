@@ -3,7 +3,6 @@ import axios from "../axiosInstance";
 import Navbar from "../components/Navbar";
 import { PencilIcon, Loader2 } from "lucide-react";
 
-
 interface SurveyData {
   age: number;
   gender: string;
@@ -11,13 +10,11 @@ interface SurveyData {
   photo: string;
 }
 
-
 interface UserProfileData {
   avatar: string;
   display_name: string;
   bio: string;
 }
-
 
 interface PhotoUploadResponse {
   photo_url: string;
@@ -37,11 +34,9 @@ const SurveyPage: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
-     
         const [surveyRes, profileRes] = await Promise.all([
           axios.get<SurveyData>("/api/survey/", {
             headers: { Authorization: `Bearer ${localStorage.getItem("access")}` },
@@ -64,7 +59,7 @@ const SurveyPage: React.FC = () => {
     fetchData();
   }, []);
 
-  
+
   const handleEditSurvey = async () => {
     try {
       setSaving(true);
@@ -90,26 +85,20 @@ const SurveyPage: React.FC = () => {
     }
   };
 
- 
+
   const handlePhotoUpload = async (file: File) => {
     try {
       setSaving(true);
       const formData = new FormData();
       formData.append("photo", file);
 
-      
-      const response = await axios.post<PhotoUploadResponse>(
-        "/api/survey/upload-photo/",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("access")}`,
-          },
-        }
-      );
+      const response = await axios.post<PhotoUploadResponse>("/api/survey/upload-photo/", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      });
 
-      
       const updatedSurvey: SurveyData = {
         ...editableSurvey,
         photo: response.data.photo_url,
@@ -123,7 +112,6 @@ const SurveyPage: React.FC = () => {
     }
   };
 
-  
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -147,37 +135,29 @@ const SurveyPage: React.FC = () => {
             {}
             <div className="flex justify-center relative">
               <label htmlFor="photo-upload" className="cursor-pointer">
-                <img
-                  src={editableSurvey.photo || "https://via.placeholder.com/120"}
-                  alt="Анкета"
-                  className="w-24 h-24 rounded-full object-cover"
-                />
-                <input
-                  type="file"
-                  id="photo-upload"
-                  className="hidden"
-                  onChange={handlePhotoChange}
-                />
+                {editableSurvey.photo && editableSurvey.photo.trim() !== "" ? (
+                  <img
+                    src={editableSurvey.photo}
+                    alt="Анкета"
+                    className="w-24 h-24 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-24 h-24 rounded-full bg-black"></div>
+                )}
+                <input type="file" id="photo-upload" className="hidden" onChange={handlePhotoChange} />
               </label>
             </div>
 
             {}
             {!isEditing ? (
               <>
-                {}
-                <h2 className="text-center text-xl font-bold mt-4">
-                  {profile?.display_name || "Без імені"}
-                </h2>
+                <h2 className="text-center text-xl font-bold mt-4">{profile?.display_name || "Без імені"}</h2>
 
-                <p className="text-center text-gray-600">
-                  Вік: {survey?.age ?? "Не вказано"}
-                </p>
+                <p className="text-center text-gray-600">Вік: {survey?.age ?? "Не вказано"}</p>
                 <p className="text-center text-gray-600">
                   Стать: {survey?.gender === "male" ? "Чоловік" : "Жінка"}
                 </p>
-                <p className="text-center text-gray-600">
-                  Інтереси: {survey?.interests ?? "Не вказано"}
-                </p>
+                <p className="text-center text-gray-600">Інтереси: {survey?.interests ?? "Не вказано"}</p>
                 <button
                   onClick={() => setIsEditing(true)}
                   className="flex items-center justify-center gap-2 bg-gray-200 hover:bg-gray-300 px-4 py-2 mt-4 w-full rounded transition"
@@ -191,19 +171,14 @@ const SurveyPage: React.FC = () => {
                   type="number"
                   value={editableSurvey.age}
                   onChange={(e) =>
-                    setEditableSurvey({
-                      ...editableSurvey,
-                      age: parseInt(e.target.value, 10),
-                    })
+                    setEditableSurvey({ ...editableSurvey, age: parseInt(e.target.value, 10) })
                   }
                   className="border rounded w-full p-2 mt-2"
                   placeholder="Вік"
                 />
                 <select
                   value={editableSurvey.gender}
-                  onChange={(e) =>
-                    setEditableSurvey({ ...editableSurvey, gender: e.target.value })
-                  }
+                  onChange={(e) => setEditableSurvey({ ...editableSurvey, gender: e.target.value })}
                   className="border rounded w-full p-2 mt-2"
                 >
                   <option value="male">Чоловік</option>
@@ -212,9 +187,7 @@ const SurveyPage: React.FC = () => {
                 <input
                   type="text"
                   value={editableSurvey.interests}
-                  onChange={(e) =>
-                    setEditableSurvey({ ...editableSurvey, interests: e.target.value })
-                  }
+                  onChange={(e) => setEditableSurvey({ ...editableSurvey, interests: e.target.value })}
                   className="border rounded w-full p-2 mt-2"
                   placeholder="Інтереси"
                 />

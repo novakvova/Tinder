@@ -13,7 +13,6 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Якщо користувач вже авторизований, перенаправляємо його на home
     if (localStorage.getItem("access")) {
       navigate("/home");
     }
@@ -34,7 +33,6 @@ const LoginPage: React.FC = () => {
 
       setMessage("✅ Авторизація успішна!");
       
-      // Використовуємо setTimeout для надійної переадресації
       setTimeout(() => {
         navigate("/home");
       }, 1000);
